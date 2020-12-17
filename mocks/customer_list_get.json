@@ -1,0 +1,20 @@
+[
+  {
+    "customer_id": 16440619,
+    "firstname": "Rooney",
+    "lastname": "Levy",
+    "username": "D5A1M5L5F6",
+    "email": "sit.amet.luctus@nonummy.co.uk",
+    "phone": "6418021079",
+    "password": "bootcamp2020mongo"
+  },
+  {
+    "customer_id": 16270429,
+    "firstname": "Dennis",
+    "lastname": "Buckley",
+    "username": "E6L6U5E3X7",
+    "email": "Nulla@sedpedenec.edu",
+    "phone": "1573910194",
+    "password": "bootcamp2020mongo"
+  }
+]

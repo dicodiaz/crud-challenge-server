@@ -1,0 +1,519 @@
+openapi: 3.0.1
+info:
+  title: Swagger Ride Lab
+  version: 1.0.0
+  description: Swagger for geohash API
+  contact:
+    email: dicodiaz@gmail.com
+    name: Dico Diaz
+    url: "https://github.com/dicodiaz"
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+servers:
+  - url: "http://localhost:3030/api/v1"
+tags:
+  - name: ride
+    description: Operations about ride
+  - name: customer
+    description: Operations about customer
+  - name: driver
+    description: Operations about driver
+  - name: car
+    description: Operations about car
+paths:
+  /cars:
+    get:
+      tags:
+        - car
+      summary: Get all cars
+      operationId: getAllCars
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /cars/create:
+    post:
+      tags:
+        - car
+      summary: Create car
+      operationId: createCar
+      requestBody:
+        description: Created car object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Car"
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /cars/{plate}/profile:
+    get:
+      tags:
+        - car
+      summary: Get car by plate
+      operationId: getCarById
+      parameters:
+        - name: plate
+          in: path
+          description: The plate that needs to be fetched. Use 1 for testing.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Car"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        "400":
+          description: Invalid id supplied
+          content: {}
+        "404":
+          description: Car not found
+          content: {}
+    put:
+      tags:
+        - car
+      summary: Updated car
+      operationId: updateCar
+      parameters:
+        - name: plate
+          in: path
+          description: The plate that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated car object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Car"
+        required: true
+      responses:
+        "400":
+          description: Invalid car supplied
+          content: {}
+        "404":
+          description: Car not found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - car
+      summary: Delete car
+      operationId: deleteCar
+      parameters:
+        - name: plate
+          in: path
+          description: The plate that needs to be to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid plate supplied
+          content: {}
+        "404":
+          description: Car not found
+          content: {}
+  /users/drivers:
+    get:
+      tags:
+        - driver
+      summary: Get all drivers
+      operationId: getAllDrivers
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /users/drivers/create:
+    post:
+      tags:
+        - driver
+      summary: Create driver
+      operationId: createDriver
+      requestBody:
+        description: Created driver object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Driver"
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /users/drivers/{driverId}/profile:
+    get:
+      tags:
+        - driver
+      summary: Get driver by driverId
+      operationId: getDriverById
+      parameters:
+        - name: driverId
+          in: path
+          description: The driverId that needs to be fetched. Use 1 for testing.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Driver"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Driver"
+        "400":
+          description: Invalid id supplied
+          content: {}
+        "404":
+          description: Driver not found
+          content: {}
+    put:
+      tags:
+        - driver
+      summary: Updated driver
+      operationId: updateDriver
+      parameters:
+        - name: driverId
+          in: path
+          description: The driverId that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated driver object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Driver"
+        required: true
+      responses:
+        "400":
+          description: Invalid driver supplied
+          content: {}
+        "404":
+          description: Driver not found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - driver
+      summary: Delete driver
+      operationId: deleteDriver
+      parameters:
+        - name: driverId
+          in: path
+          description: The driverId that needs to be to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid driverId supplied
+          content: {}
+        "404":
+          description: Driver not found
+          content: {}
+  /users/customers:
+    get:
+      tags:
+        - customer
+      summary: Get all customers
+      operationId: getAllCustomers
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /users/customers/create:
+    post:
+      tags:
+        - customer
+      summary: Create customer
+      operationId: createCustomer
+      requestBody:
+        description: Created customer object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Customer"
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /users/customers/{customerId}/profile:
+    get:
+      tags:
+        - customer
+      summary: Get customer by customerId
+      operationId: getCustomerById
+      parameters:
+        - name: customerId
+          in: path
+          description: The customerId that needs to be fetched. Use 1 for testing.
+          required: true
+          schema:
+            type: integer
+            # Por qué 64 bits?
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            # Por qué dar la opción de devolver xml?
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Customer"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        # La validación de id inválidas no se hace en el front end?
+        "400":
+          description: Invalid id supplied
+          content: {}
+        "404":
+          description: Customer not found
+          content: {}
+    put:
+      tags:
+        - customer
+      summary: Updated customer
+      operationId: updateCustomer
+      parameters:
+        - name: customerId
+          in: path
+          description: The customerId that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated customer object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Customer"
+        required: true
+      responses:
+        "400":
+          description: Invalid customer supplied
+          content: {}
+        "404":
+          description: Customer not found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - customer
+      summary: Delete customer
+      operationId: deleteCustomer
+      parameters:
+        - name: customerId
+          in: path
+          description: The customerId that needs to be to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid customerId supplied
+          content: {}
+        "404":
+          description: Customer not found
+          content: {}
+  /rides:
+    get:
+      tags:
+        - ride
+      summary: Get all rides
+      operationId: getAllRides
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /rides/create:
+    post:
+      tags:
+        - ride
+      summary: Create ride
+      operationId: createRide
+      requestBody:
+        description: Created ride object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Ride"
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /rides/{driver_id}/profile:
+    get:
+      tags:
+        - ride
+      summary: Get ride by driver_id
+      operationId: getRideById
+      parameters:
+        - name: driver_id
+          in: path
+          description: The driver_id that needs to be fetched. Use 1 for testing.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Ride"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ride"
+        "400":
+          description: Invalid id supplied
+          content: {}
+        "404":
+          description: Ride not found
+          content: {}
+    put:
+      tags:
+        - ride
+      summary: Updated ride
+      operationId: updateRide
+      parameters:
+        - name: driver_id
+          in: path
+          description: The driver_id that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated ride object
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/Ride"
+        required: true
+      responses:
+        "400":
+          description: Invalid ride supplied
+          content: {}
+        "404":
+          description: Ride not found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - ride
+      summary: Delete ride
+      operationId: deleteRide
+      parameters:
+        - name: driver_id
+          in: path
+          description: The driver_id that needs to be to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid driver_id supplied
+          content: {}
+        "404":
+          description: Ride not found
+          content: {}
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        plate:
+          type: string
+        model:
+          type: string
+        motor:
+          type: string
+        chassis:
+          type: string
+        color:
+          type: string
+      xml:
+        name: Car
+    Driver:
+      type: object
+      properties:
+        driverId:
+          type: integer
+          format: int64
+        firstname:
+          type: string
+        lastname:
+          type: string
+        age:
+          type: string
+        username:
+          type: string
+        phone:
+          type: string
+      xml:
+        name: Driver
+    Customer:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        firstname:
+          type: string
+        lastname:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+      xml:
+        name: Customer
+    Ride:
+      type: object
+      properties:
+        first_point:
+          type: string
+        target_point:
+          type: string
+        driver_id:
+          type: string
+        customer_id:
+          type: string
+        time:
+          type: string
+      xml:
+        name: Ride
