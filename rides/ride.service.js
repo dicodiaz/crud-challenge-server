@@ -1,55 +1,94 @@
 const Promise = require('bluebird');
-const rides  = require('../mocks/ride_list_get.json');
-const ride  = require('../mocks/ride_create_post.json');
-const {getAllRidesQuery} = require('../commons/queries');
-// const {createRideQuery} = require('../commons/queries');
-const {pool} = require('../config/config');
-
-const error = {error: "error"};
+const { createRideQuery, getAllRidesQuery, getRideByIdQuery, updateRideQuery, deleteRideQuery } = require('../commons/queries');
+const { pool } = require('../config/config');
 
 const getAllRides = async () => {
 	return new Promise((resolve, reject) => {
-	  pool.query(getAllRidesQuery, (error, results) => {
-		if (error) {
-		  reject(error);
-		}
-		resolve(results.rows);
-	  });
-	});
-  };
-
-const getByPlate = async (driver_id) => {
-	const ride = rides.find(ride => ride.driver_id === parseInt(driver_id));
-	return new Promise((resolve, reject) => {
-		resolve(ride);
-		reject(error);
+		pool.query(
+			getAllRidesQuery,
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const create = async (rideParam) => {
+const createRide = async (rideParam) => {
 	return new Promise((resolve, reject) => {
-		resolve(ride);
-		reject(error);
+		pool.query(
+			createRideQuery,
+			[
+				rideParam.first_point,
+				rideParam.target_point,
+				rideParam.driver_id,
+				rideParam.customer_id,
+				rideParam.time,
+			],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(rideParam);
+				}
+			});
 	});
 };
 
-const update = async (driver_id, rideParam) => {
+const getRideById = async (id) => {
 	return new Promise((resolve, reject) => {
-		resolve(ride);
-		reject(error);
+		pool.query(
+			getRideByIdQuery,
+			[id],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const _delete = async (driver_id) => {
+const updateRide = async (id, rideParam) => {
 	return new Promise((resolve, reject) => {
-		resolve();
-		reject(error);
-	});};
+		pool.query(
+			updateRideQuery,
+			[
+				id,
+				rideParam.first_point,
+				rideParam.target_point,
+				rideParam.driver_id,
+				rideParam.customer_id,
+				rideParam.time,
+			],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
+	});
+};
+
+const _deleteRide = async (id) => {
+	return new Promise((resolve, reject) => {
+		pool.query(
+			deleteRideQuery,
+			[id],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
+	});
+};
 
 module.exports = {
 	getAllRides,
-	getByPlate,
-	create,
-	update,
-	delete: _delete
+	getRideById,
+	createRide,
+	updateRide,
+	delete: _deleteRide
 };
