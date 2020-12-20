@@ -1,56 +1,98 @@
 const Promise = require('bluebird');
-const drivers  = require('../mocks/driver_list_get.json');
-const driver  = require('../mocks/driver_create_post.json');
-const {getAllDriversQuery} = require('../commons/queries');
-const {pool} = require('../config/config');
-
-const error = {error: "error"};
+const { createDriverQuery, getAllDriversQuery, getDriverByIdQuery, updateDriverQuery, deleteDriverQuery } = require('../commons/queries');
+const { pool } = require('../config/config');
 
 const getAllDrivers = async () => {
 	return new Promise((resolve, reject) => {
 		pool.query(
 			getAllDriversQuery,
 			(error, results) => {
-			if (error) {
-				reject(error);
-			}
-			resolve(results.rows);
-		});
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const getById = async (id) => {
-	const driver = drivers.find(driver => driver.driverId === parseInt(id));
+const createDriver = async (driverParam) => {
 	return new Promise((resolve, reject) => {
-		resolve(driver);
-		reject(error);
+		pool.query(
+			createDriverQuery,
+			[
+				driverParam.driver_id,
+				driverParam.firstname,
+				driverParam.lastname,
+				driverParam.age,
+				driverParam.username,
+				driverParam.phone,
+				driverParam.password,
+			],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(driverParam);
+				}
+			});
 	});
 };
 
-const create = async (driverParam) => {
+const getDriverById = async (id) => {
 	return new Promise((resolve, reject) => {
-		resolve(driver);
-		reject(error);
+		pool.query(
+			getDriverByIdQuery,
+			[id],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const update = async (id, driverParam) => {
+const updateDriver = async (id, driverParam) => {
 	return new Promise((resolve, reject) => {
-		resolve(driver);
-		reject(error);
+		pool.query(
+			updateDriverQuery,
+			[
+				id,
+				driverParam.driver_id,
+				driverParam.firstname,
+				driverParam.lastname,
+				driverParam.age,
+				driverParam.username,
+				driverParam.phone,
+				driverParam.password,
+			],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const _delete = async (id) => {
+const _deleteDriver = async (id) => {
 	return new Promise((resolve, reject) => {
-		resolve();
-		reject(error);
-	});};
+		pool.query(
+			deleteDriverQuery,
+			[id],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
+	});
+};
 
 module.exports = {
 	getAllDrivers,
-	getById,
-	create,
-	update,
-	delete: _delete
+	getDriverById,
+	createDriver,
+	updateDriver,
+	delete: _deleteDriver
 };

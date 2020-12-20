@@ -1,56 +1,98 @@
 const Promise = require('bluebird');
-const customers  = require('../mocks/customer_list_get.json');
-const customer  = require('../mocks/customer_create_post.json');
-const {getAllCustomersQuery} = require('../commons/queries');
-const {pool} = require('../config/config');
-
-const error = {error: "error"};
+const { createCustomerQuery, getAllCustomersQuery, getCustomerByIdQuery, updateCustomerQuery, deleteCustomerQuery } = require('../commons/queries');
+const { pool } = require('../config/config');
 
 const getAllCustomers = async () => {
 	return new Promise((resolve, reject) => {
 		pool.query(
 			getAllCustomersQuery,
 			(error, results) => {
-			if (error) {
-				reject(error);
-			}
-			resolve(results.rows);
-		});
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const getById = async (id) => {
-	const customer = customers.find(customer => customer.customerId === parseInt(id));
+const createCustomer = async (customerParam) => {
 	return new Promise((resolve, reject) => {
-		resolve(customer);
-		reject(error);
+		pool.query(
+			createCustomerQuery,
+			[
+				customerParam.customer_id,
+				customerParam.firstname,
+				customerParam.lastname,
+				customerParam.username,
+				customerParam.email,
+				customerParam.phone,
+				customerParam.password,
+			],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(customerParam);
+				}
+			});
 	});
 };
 
-const create = async (customerParam) => {
+const getCustomerById = async (id) => {
 	return new Promise((resolve, reject) => {
-		resolve(customer);
-		reject(error);
+		pool.query(
+			getCustomerByIdQuery,
+			[id],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const update = async (id, customerParam) => {
+const updateCustomer = async (id, customerParam) => {
 	return new Promise((resolve, reject) => {
-		resolve(customer);
-		reject(error);
+		pool.query(
+			updateCustomerQuery,
+			[
+				id,
+				customerParam.customer_id,
+				customerParam.firstname,
+				customerParam.lastname,
+				customerParam.username,
+				customerParam.email,
+				customerParam.phone,
+				customerParam.password,
+			],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
 	});
 };
 
-const _delete = async (id) => {
+const _deleteCustomer = async (id) => {
 	return new Promise((resolve, reject) => {
-		resolve();
-		reject(error);
-	});};
+		pool.query(
+			deleteCustomerQuery,
+			[id],
+			(error, results) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(results.rows);
+			});
+	});
+};
 
 module.exports = {
 	getAllCustomers,
-	getById,
-	create,
-	update,
-	delete: _delete // Qué significa el _delete?
+	getCustomerById,
+	createCustomer,
+	updateCustomer,
+	delete: _deleteCustomer
 };

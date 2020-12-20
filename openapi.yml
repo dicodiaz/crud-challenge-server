@@ -32,7 +32,7 @@ paths:
         default:
           description: successful operation
           content: {}
-  /cars/create:
+  /cars/register:
     post:
       tags:
         - car
@@ -50,16 +50,16 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: body
-  /cars/{plate}/profile:
+  /cars/{id}/detail:
     get:
       tags:
         - car
-      summary: Get car by plate
+      summary: Get car by id
       operationId: getCarById
       parameters:
-        - name: plate
+        - name: id
           in: path
-          description: The plate that needs to be fetched. Use 1 for testing.
+          description: The id that needs to be fetched. Use 1 for testing.
           required: true
           schema:
             type: integer
@@ -83,18 +83,18 @@ paths:
     put:
       tags:
         - car
-      summary: Updated car
+      summary: Update car
       operationId: updateCar
       parameters:
-        - name: plate
+        - name: id
           in: path
-          description: The plate that needs to be updated
+          description: The id that needs to be updated
           required: true
           schema:
             type: integer
             format: int64
       requestBody:
-        description: Updated car object
+        description: Update car object
         content:
           "*/*":
             schema:
@@ -114,9 +114,9 @@ paths:
       summary: Delete car
       operationId: deleteCar
       parameters:
-        - name: plate
+        - name: id
           in: path
-          description: The plate that needs to be to be deleted
+          description: The id that needs to be to be deleted
           required: true
           schema:
             type: integer
@@ -138,7 +138,7 @@ paths:
         default:
           description: successful operation
           content: {}
-  /users/drivers/create:
+  /users/drivers/register:
     post:
       tags:
         - driver
@@ -156,16 +156,16 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: body
-  /users/drivers/{driverId}/profile:
+  /users/drivers/{id}/detail:
     get:
       tags:
         - driver
-      summary: Get driver by driverId
+      summary: Get driver by id
       operationId: getDriverById
       parameters:
-        - name: driverId
+        - name: id
           in: path
-          description: The driverId that needs to be fetched. Use 1 for testing.
+          description: The id that needs to be fetched. Use 1 for testing.
           required: true
           schema:
             type: integer
@@ -189,18 +189,18 @@ paths:
     put:
       tags:
         - driver
-      summary: Updated driver
+      summary: Update driver
       operationId: updateDriver
       parameters:
-        - name: driverId
+        - name: id
           in: path
-          description: The driverId that needs to be updated
+          description: The id that needs to be updated
           required: true
           schema:
             type: integer
             format: int64
       requestBody:
-        description: Updated driver object
+        description: Update driver object
         content:
           "*/*":
             schema:
@@ -220,9 +220,9 @@ paths:
       summary: Delete driver
       operationId: deleteDriver
       parameters:
-        - name: driverId
+        - name: id
           in: path
-          description: The driverId that needs to be to be deleted
+          description: The id that needs to be to be deleted
           required: true
           schema:
             type: integer
@@ -244,7 +244,7 @@ paths:
         default:
           description: successful operation
           content: {}
-  /users/customers/create:
+  /users/customers/register:
     post:
       tags:
         - customer
@@ -262,16 +262,16 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: body
-  /users/customers/{customerId}/profile:
+  /users/customers/{id}/detail:
     get:
       tags:
         - customer
-      summary: Get customer by customerId
+      summary: Get customer by id
       operationId: getCustomerById
       parameters:
-        - name: customerId
+        - name: id
           in: path
-          description: The customerId that needs to be fetched. Use 1 for testing.
+          description: The id that needs to be fetched. Use 1 for testing.
           required: true
           schema:
             type: integer
@@ -298,18 +298,18 @@ paths:
     put:
       tags:
         - customer
-      summary: Updated customer
+      summary: Update customer
       operationId: updateCustomer
       parameters:
-        - name: customerId
+        - name: id
           in: path
-          description: The customerId that needs to be updated
+          description: The id that needs to be updated
           required: true
           schema:
             type: integer
             format: int64
       requestBody:
-        description: Updated customer object
+        description: Update customer object
         content:
           "*/*":
             schema:
@@ -329,9 +329,9 @@ paths:
       summary: Delete customer
       operationId: deleteCustomer
       parameters:
-        - name: customerId
+        - name: id
           in: path
-          description: The customerId that needs to be to be deleted
+          description: The id that needs to be to be deleted
           required: true
           schema:
             type: integer
@@ -353,7 +353,7 @@ paths:
         default:
           description: successful operation
           content: {}
-  /rides/create:
+  /rides/register:
     post:
       tags:
         - ride
@@ -371,16 +371,16 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: body
-  /rides/{driver_id}/profile:
+  /rides/{id}/detail:
     get:
       tags:
         - ride
-      summary: Get ride by driver_id
+      summary: Get ride by id
       operationId: getRideById
       parameters:
-        - name: driver_id
+        - name: id
           in: path
-          description: The driver_id that needs to be fetched. Use 1 for testing.
+          description: The id that needs to be fetched. Use 1 for testing.
           required: true
           schema:
             type: integer
@@ -404,18 +404,18 @@ paths:
     put:
       tags:
         - ride
-      summary: Updated ride
+      summary: Update ride
       operationId: updateRide
       parameters:
-        - name: driver_id
+        - name: id
           in: path
-          description: The driver_id that needs to be updated
+          description: The id that needs to be updated
           required: true
           schema:
             type: integer
             format: int64
       requestBody:
-        description: Updated ride object
+        description: Update ride object
         content:
           "*/*":
             schema:
@@ -435,9 +435,9 @@ paths:
       summary: Delete ride
       operationId: deleteRide
       parameters:
-        - name: driver_id
+        - name: id
           in: path
-          description: The driver_id that needs to be to be deleted
+          description: The id that needs to be to be deleted
           required: true
           schema:
             type: integer
@@ -454,6 +454,8 @@ components:
     Car:
       type: object
       properties:
+        id:
+          type: string
         plate:
           type: string
         model:
@@ -469,7 +471,9 @@ components:
     Driver:
       type: object
       properties:
-        driverId:
+        id:
+          type: string
+        driver_id:
           type: integer
           format: int64
         firstname:
@@ -477,17 +481,22 @@ components:
         lastname:
           type: string
         age:
-          type: string
+          type: integer
+          format: int32
         username:
           type: string
         phone:
+          type: string
+        password:
           type: string
       xml:
         name: Driver
     Customer:
       type: object
       properties:
-        customerId:
+        id:
+          type: string
+        customer_id:
           type: integer
           format: int64
         firstname:
@@ -500,15 +509,19 @@ components:
           type: string
         phone:
           type: string
+        password:
+          type: string
       xml:
         name: Customer
     Ride:
       type: object
       properties:
+        id:
+          type: string
         first_point:
-          type: string
+          $ref: "#/components/schemas/Point"
         target_point:
-          type: string
+          $ref: "#/components/schemas/Point"
         driver_id:
           type: string
         customer_id:
@@ -517,3 +530,23 @@ components:
           type: string
       xml:
         name: Ride
+    Point:
+      type: object
+      properties:
+        lat:
+          type: string
+        lng:
+          type: string
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: "http://geohashapp.swagger.io/oauth/dialog"
+          scopes:
+            "write:user": modify user in your account
+            "read:user": read your user
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
