@@ -16,7 +16,8 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Max: 150
 Metrics/BlockLength:
-  IgnoredMethods: ['describe']
+  Exclude:
+    - 'spec/**/_spec.rb'
   Max: 30
 
 Style/Documentation:
